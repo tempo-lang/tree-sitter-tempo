@@ -48,11 +48,27 @@
     "named": true,
     "subtypes": [
       {
+        "type": "stmt_assign",
+        "named": true
+      },
+      {
         "type": "stmt_expression",
         "named": true
       },
       {
+        "type": "stmt_if",
+        "named": true
+      },
+      {
+        "type": "stmt_return",
+        "named": true
+      },
+      {
         "type": "stmt_variable_decl",
+        "named": true
+      },
+      {
+        "type": "stmt_while",
         "named": true
       }
     ]
@@ -78,6 +94,36 @@
         "named": true
       }
     ]
+  },
+  {
+    "type": "assign_field",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "assign_index",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "async_type",
@@ -349,7 +395,81 @@
     }
   },
   {
+    "type": "stmt_assign",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "assign_field",
+          "named": true
+        },
+        {
+          "type": "assign_index",
+          "named": true
+        },
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "stmt_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "stmt_if",
+    "named": true,
+    "fields": {
+      "else": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "guard": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      },
+      "then": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "stmt_return",
     "named": true,
     "fields": {},
     "children": {
@@ -400,6 +520,32 @@
     }
   },
   {
+    "type": "stmt_while",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "guard": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "string_literal",
     "named": true,
     "fields": {}
@@ -422,6 +568,10 @@
   },
   {
     "type": ",",
+    "named": false
+  },
+  {
+    "type": ".",
     "named": false
   },
   {
@@ -457,11 +607,19 @@
     "named": false
   },
   {
+    "type": "else",
+    "named": false
+  },
+  {
     "type": "false",
     "named": false
   },
   {
     "type": "func",
+    "named": false
+  },
+  {
+    "type": "if",
     "named": false
   },
   {
@@ -485,6 +643,10 @@
     "named": false
   },
   {
+    "type": "return",
+    "named": false
+  },
+  {
     "type": "struct_definition",
     "named": true
   },
@@ -494,6 +656,10 @@
   },
   {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "while",
     "named": false
   },
   {

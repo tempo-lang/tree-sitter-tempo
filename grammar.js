@@ -69,7 +69,10 @@ module.exports = grammar({
       choice(
         $.stmt_expression,
         $.stmt_variable_decl,
-        // TODO: if, while, return, assign
+        $.stmt_if,
+        $.stmt_while,
+        $.stmt_return,
+        $.stmt_assign,
       ),
     stmt_expression: $ => seq($.expression, ';'),
     stmt_variable_decl: $ =>
@@ -81,6 +84,21 @@ module.exports = grammar({
         field('value', $.expression),
         ';',
       ),
+    stmt_if: $ =>
+      seq(
+        'if',
+        field('guard', $.expression),
+        field('then', $.block),
+        optional(seq('else', field('else', $.block))),
+      ),
+    stmt_while: $ =>
+      seq('while', field('guard', $.expression), field('body', $.block)),
+    stmt_return: $ => seq('return', $.expression, ';'),
+    stmt_assign: $ =>
+      seq($.identifier, repeat($._assign_specifier), '=', $.expression, ';'),
+    _assign_specifier: $ => choice($.assign_field, $.assign_index),
+    assign_field: $ => seq('.', $.identifier),
+    assign_index: $ => seq('[', $.expression, ']'),
 
     // expressions
     expression: $ =>
