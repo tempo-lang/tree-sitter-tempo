@@ -1,0 +1,27 @@
+===================
+Function definition
+===================
+
+func@(A,B) main(val: Int@A) Int@B {}
+
+---
+
+(source_file
+  (function_definition
+    (function_signature
+      (role_type_normal
+        (identifier)
+        (identifier))
+      name: (identifier)
+      parameters: (parameter_list
+        (function_param
+          (identifier)
+          (named_type
+            (identifier)
+            (role_type_normal
+              (identifier)))))
+      return_type: (named_type
+        (identifier)
+        (role_type_normal
+          (identifier))))
+    body: (block)))
