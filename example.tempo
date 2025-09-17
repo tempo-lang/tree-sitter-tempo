@@ -1,0 +1,2 @@
+
+func@(A,B) main(val: Int@A) Int@B {}

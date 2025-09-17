@@ -1,0 +1,40 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/config.schema.json",
+  "grammars": [
+    {
+      "name": "tempo",
+      "camelcase": "Tempo",
+      "title": "Tempo",
+      "scope": "source.tempo",
+      "file-types": [
+        "tempo"
+      ],
+      "injection-regex": "^tempo$",
+      "class-name": "TreeSitterTempo"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tempo Choreographic Programming Language",
+    "authors": [
+      {
+        "name": "Viktor Strate Kløvedal",
+        "email": "viktorstrate@gmail.com",
+        "url": "https://qpqp.dk/"
+      }
+    ],
+    "links": {
+      "repository": "https://github.com/tempo-lang/tree-sitter-tempo"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true,
+    "zig": false
+  }
+}
