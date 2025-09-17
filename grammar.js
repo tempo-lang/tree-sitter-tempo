@@ -15,7 +15,7 @@ module.exports = grammar({
   // conflicts: $ => [[$.role_type_normal, $.expression]],
 
   rules: {
-    source_file: $ => $.definition,
+    source_file: $ => repeat($.definition),
     definition: $ =>
       choice(
         $.function_definition,
@@ -48,10 +48,30 @@ module.exports = grammar({
       ),
 
     // structs
-    struct_definition: $ => 'struct', // TODO: parse structs
+    struct_definition: $ =>
+      seq(
+        'struct',
+        optional(seq('@', $._role_type)),
+        field('name', $.identifier),
+        optional($.struct_implements),
+        field('body', $.struct_body),
+      ),
+    struct_implements: $ =>
+      seq('implements', $._role_ident, repeat(seq(',', $._role_ident))),
+    struct_body: $ =>
+      seq('{', repeat(choice($.struct_field, $.function_definition)), '}'),
+    struct_field: $ => seq($.identifier, ':', $.value_type, ';'),
 
     // interfaces
-    interface_definition: $ => 'interface', // TODO: parse interfaces
+    interface_definition: $ =>
+      seq(
+        'interface',
+        optional(seq('@', $._role_type)),
+        field('name', $.identifier),
+        field('body', $.interface_body),
+      ),
+    interface_body: $ => seq('{', $.interface_method, '}'),
+    interface_method: $ => seq($.function_signature, ';'),
 
     // types
     _role_type: $ => choice($.role_type_shared, $.role_type_normal),
