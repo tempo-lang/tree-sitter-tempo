@@ -12,6 +12,8 @@ module.exports = grammar({
 
   supertypes: $ => [$.definition, $.value_type, $.statement, $.expression],
 
+  // conflicts: $ => [[$.role_type_normal, $.expression]],
+
   rules: {
     source_file: $ => $.definition,
     definition: $ =>
@@ -38,6 +40,12 @@ module.exports = grammar({
         ')',
       ),
     function_param: $ => seq(field('name', $.identifier), ':', $.value_type),
+    argument_list: $ =>
+      seq(
+        '(',
+        optional(seq($.expression, repeat(seq(',', $.expression)))),
+        ')',
+      ),
 
     // structs
     struct_definition: $ => 'struct', // TODO: parse structs
@@ -48,7 +56,7 @@ module.exports = grammar({
     // types
     _role_type: $ => choice($.role_type_shared, $.role_type_normal),
     role_type_shared: $ =>
-      seq('[', $.identifier, repeat(seq(',', $.identifier)), ']'),
+      prec(2, seq('[', $.identifier, repeat(seq(',', $.identifier)), ']')),
     role_type_normal: $ =>
       choice(
         $.identifier,
@@ -95,7 +103,10 @@ module.exports = grammar({
       seq('while', field('guard', $.expression), field('body', $.block)),
     stmt_return: $ => seq('return', $.expression, ';'),
     stmt_assign: $ =>
-      seq($.identifier, repeat($._assign_specifier), '=', $.expression, ';'),
+      prec(
+        -1,
+        seq($.identifier, repeat($._assign_specifier), '=', $.expression, ';'),
+      ),
     _assign_specifier: $ => choice($.assign_field, $.assign_index),
     assign_field: $ => seq('.', $.identifier),
     assign_index: $ => seq('[', $.expression, ']'),
@@ -103,9 +114,16 @@ module.exports = grammar({
     // expressions
     expression: $ =>
       choice(
-        $.identifier,
-        $._literal,
-        // TODO: bin op, closure, struct, call, field access, index, list, com, await, group
+        $.expr_identifier,
+        $.expr_literal,
+        $.expr_call,
+        $.expr_field_access,
+        $.expr_index,
+        $.expr_list,
+        $.expr_com,
+        $.expr_await,
+        $.expr_group,
+        // TODO: bin op, closure, struct
       ),
     identifier: $ => choice(/\_[a-zA-Z_0-9]+/, /[a-zA-Z][a-zA-Z_0-9]*/),
     _literal: $ =>
@@ -115,6 +133,30 @@ module.exports = grammar({
         $.integer_literal,
         $.float_literal,
       ),
+    expr_identifier: $ =>
+      prec(3, seq($.identifier, optional(seq('@', $._role_type)))),
+    expr_literal: $ => seq($._literal, optional(seq('@', $._role_type))),
+    expr_call: $ => seq($.expression, $.argument_list),
+    expr_field_access: $ => seq($.expression, '.', $.identifier),
+    expr_index: $ =>
+      seq(field('base', $.expression), '[', field('index', $.expression), ']'),
+    expr_list: $ =>
+      seq(
+        '[',
+        optional(seq($.expression, repeat(seq(',', $.expression)))),
+        ']',
+      ),
+    expr_com: $ =>
+      prec.left(
+        seq(
+          field('sender', $._role_type),
+          '->',
+          field('receier', $._role_type),
+          $.expression,
+        ),
+      ),
+    expr_await: $ => prec.left(seq('await', $.expression)),
+    expr_group: $ => seq('(', $.expression, ')'),
 
     // literals
     string_literal: $ =>
