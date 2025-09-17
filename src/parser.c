@@ -16,7 +16,7 @@
 #define FIELD_COUNT 4
 #define MAX_ALIAS_SEQUENCE_LENGTH 6
 #define MAX_RESERVED_WORD_SET_SIZE 0
-#define PRODUCTION_ID_COUNT 6
+#define PRODUCTION_ID_COUNT 7
 #define SUPERTYPE_COUNT 2
 
 enum ts_symbol_identifiers {
@@ -291,6 +291,7 @@ static const TSMapSlice ts_field_map_slices[PRODUCTION_ID_COUNT] = {
   [3] = {.index = 3, .length = 3},
   [4] = {.index = 6, .length = 2},
   [5] = {.index = 8, .length = 3},
+  [6] = {.index = 11, .length = 1},
 };
 
 static const TSFieldMapEntry ts_field_map_entries[] = {
@@ -310,6 +311,8 @@ static const TSFieldMapEntry ts_field_map_entries[] = {
     {field_name, 3},
     {field_parameters, 4},
     {field_return_type, 5},
+  [11] =
+    {field_name, 0},
 };
 
 static const TSSymbol ts_alias_sequences[PRODUCTION_ID_COUNT][MAX_ALIAS_SEQUENCE_LENGTH] = {
@@ -1296,7 +1299,7 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [93] = {.entry = {.count = 1, .reusable = true}}, REDUCE(aux_sym_parameter_list_repeat1, 2, 0, 0),
   [95] = {.entry = {.count = 1, .reusable = true}}, SHIFT(15),
   [97] = {.entry = {.count = 1, .reusable = true}}, SHIFT(20),
-  [99] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_function_param, 3, 0, 0),
+  [99] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_function_param, 3, 0, 6),
   [101] = {.entry = {.count = 1, .reusable = true}}, SHIFT(54),
   [103] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_source_file, 1, 0, 0),
   [105] = {.entry = {.count = 1, .reusable = true}}, SHIFT(10),

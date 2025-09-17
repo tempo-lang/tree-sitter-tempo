@@ -6,9 +6,10 @@
       "camelcase": "Tempo",
       "title": "Tempo",
       "scope": "source.tempo",
-      "file-types": [
-        "tempo"
-      ],
+      "path": ".",
+      "file-types": ["tempo"],
+      "highlights": "queries/highlights.scm",
+      "locals": "queries/locals.scm",
       "injection-regex": "^tempo$",
       "class-name": "TreeSitterTempo"
     }

@@ -30,7 +30,7 @@ module.exports = grammar({
         optional(seq($.function_param, repeat(seq(',', $.function_param)))),
         ')',
       ),
-    function_param: $ => seq($.identifier, ':', $.value_type),
+    function_param: $ => seq(field('name', $.identifier), ':', $.value_type),
     _role_type: $ => choice($.role_type_shared, $.role_type_normal),
     role_type_shared: $ =>
       seq('[', $.identifier, repeat(seq(',', $.identifier)), ']'),
