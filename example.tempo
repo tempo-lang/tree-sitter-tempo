@@ -1,1 +1,3 @@
-func@(A,B) main(val: Int@A) Int@B {}
+func@(A,B) main(val: Int@A) Int@B {
+  return await A->B val;
+}

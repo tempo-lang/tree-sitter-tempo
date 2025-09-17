@@ -1,6 +1,12 @@
 ; locals.scm
 
-(function_definition) @local.scope
 (function_param name: (identifier) @local.definition)
+(stmt_variable_decl (identifier) @local.definition)
+(expr_identifier) @local.reference
 
-(block) @local.scope
+[
+  (block)
+  (function_definition)
+  (struct_body)
+  (interface_body)
+] @local.scope
