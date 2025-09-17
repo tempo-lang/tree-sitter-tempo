@@ -12,7 +12,7 @@ module.exports = grammar({
 
   supertypes: $ => [$.definition, $.value_type, $.statement, $.expression],
 
-  // conflicts: $ => [[$.role_type_normal, $.expression]],
+  extras: $ => [/\s|\\\r?\n/, $.comment],
 
   rules: {
     source_file: $ => repeat($.definition),
@@ -188,5 +188,13 @@ module.exports = grammar({
     boolean_literal: $ => choice('true', 'false'),
     float_literal: $ => choice(/[0-9]+\.[0-9]+/, /\.[0-9]+/, /[0-9]+\./),
     integer_literal: $ => /[0-9]+/,
+
+    comment: _ =>
+      token(
+        choice(
+          seq('//', /(\\+(.|\r?\n)|[^\\\n])*/),
+          seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
+        ),
+      ),
   },
 })

@@ -1036,6 +1036,11 @@
     "named": false
   },
   {
+    "type": "comment",
+    "named": true,
+    "extra": true
+  },
+  {
     "type": "else",
     "named": false
   },
