@@ -5,6 +5,7 @@
 //!
 //! ```
 //! let code = r#"
+//! func main() {}
 //! "#;
 //! let mut parser = tree_sitter::Parser::new();
 //! let language = tree_sitter_tempo::LANGUAGE;
