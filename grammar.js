@@ -62,6 +62,23 @@ module.exports = grammar({
       seq('{', repeat(choice($.struct_field, $.function_definition)), '}'),
     struct_field: $ => seq($.identifier, ':', $.value_type, ';'),
 
+    // struct instantiation (struct literals)
+    struct_instantiation: $ =>
+      seq(
+        $.named_type,
+        '@',
+        $._role_type,
+        field('body', $.struct_body_instantiation),
+      ),
+    struct_body_instantiation: $ =>
+      seq('{', optional($.struct_fields_instantiation), '}'),
+    struct_fields_instantiation: $ =>
+      seq(
+        $.struct_field_instantiation,
+        repeat(seq(',', $.struct_field_instantiation)),
+      ),
+    struct_field_instantiation: $ => seq($.identifier, ':', $.expression),
+
     // interfaces
     interface_definition: $ =>
       seq(
@@ -143,7 +160,8 @@ module.exports = grammar({
         $.expr_com,
         $.expr_await,
         $.expr_group,
-        // TODO: bin op, closure, struct
+        $.struct_instantiation,
+        // TODO: bin op, closure
       ),
     identifier: $ => choice(/\_[a-zA-Z_0-9]+/, /[a-zA-Z][a-zA-Z_0-9]*/),
     _literal: $ =>

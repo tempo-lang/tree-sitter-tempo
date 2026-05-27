@@ -1,0 +1,58 @@
+===================
+Struct instantiate
+===================
+
+struct@(A,B) Pair {
+  x: Int@A;
+  y: String@B;
+}
+
+func@(A,B) main() {
+  let p = Pair@(A,B) { x: 1, y: "hello" };
+}
+
+---
+
+(source_file
+      (struct_definition
+        (role_type_normal
+          (identifier)
+          (identifier))
+        (identifier)
+        (struct_body
+          (struct_field
+            (identifier)
+            (named_type
+              (identifier)
+              (role_type_normal
+                (identifier))))
+          (struct_field
+            (identifier)
+            (named_type
+              (identifier)
+              (role_type_normal
+                (identifier))))))
+      (function_definition
+        (function_signature
+          (role_type_normal
+            (identifier)
+            (identifier))
+          (identifier)
+          (parameter_list))
+        (block
+          (stmt_variable_decl
+            (identifier)
+            (struct_instantiation
+              (named_type
+                (identifier)
+                (role_type_normal
+                  (identifier)
+                  (identifier)))
+              (struct_body_instantiation
+                (struct_fields_instantiation
+                  (struct_field_instantiation
+                    (identifier)
+                    (struct_value))
+                  (struct_field_instantiation
+                    (identifier)
+                    (struct_value)))))))))
