@@ -360,7 +360,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "named_type"
+          "name": "identifier"
         },
         {
           "type": "CHOICE",
@@ -456,13 +456,9 @@
         },
         {
           "type": "SYMBOL",
-          "name": "struct_value"
+          "name": "expression"
         }
       ]
-    },
-    "struct_value": {
-      "type": "PATTERN",
-      "value": "[^\\s{},;]+"
     },
     "interface_definition": {
       "type": "SEQ",
@@ -1075,8 +1071,66 @@
         {
           "type": "SYMBOL",
           "name": "struct_instantiation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr_binop"
         }
       ]
+    },
+    "expr_binop": {
+      "type": "PREC_LEFT",
+      "value": 1,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "left",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "operator",
+            "content": {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "+"
+                },
+                {
+                  "type": "STRING",
+                  "value": "-"
+                },
+                {
+                  "type": "STRING",
+                  "value": "*"
+                },
+                {
+                  "type": "STRING",
+                  "value": "/"
+                },
+                {
+                  "type": "STRING",
+                  "value": "%"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FIELD",
+            "name": "right",
+            "content": {
+              "type": "SYMBOL",
+              "name": "expression"
+            }
+          }
+        ]
+      }
     },
     "identifier": {
       "type": "CHOICE",

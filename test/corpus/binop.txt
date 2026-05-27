@@ -1,0 +1,39 @@
+================
+Binary operators
+================
+
+func@A main() {
+  let x = 1 + 2;
+  let y = 2 * 4 + 5 * 1;
+}
+
+---
+
+(source_file
+      (function_definition
+        (function_signature
+          (role_type_normal
+            (identifier))
+          (identifier)
+          (parameter_list))
+        (block
+          (stmt_variable_decl
+            (identifier)
+            (expr_binop
+              (expr_literal
+                (integer_literal))
+              (expr_literal
+                (integer_literal))))
+          (stmt_variable_decl
+            (identifier)
+            (expr_binop
+              (expr_binop
+                (expr_binop
+                  (expr_literal
+                    (integer_literal))
+                  (expr_literal
+                    (integer_literal)))
+                (expr_literal
+                  (integer_literal)))
+              (expr_literal
+                (integer_literal)))))))

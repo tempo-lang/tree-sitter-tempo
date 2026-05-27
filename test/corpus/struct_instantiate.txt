@@ -43,16 +43,17 @@ func@(A,B) main() {
           (stmt_variable_decl
             (identifier)
             (struct_instantiation
-              (named_type
+              (identifier)
+              (role_type_normal
                 (identifier)
-                (role_type_normal
-                  (identifier)
-                  (identifier)))
+                (identifier))
               (struct_body_instantiation
                 (struct_fields_instantiation
                   (struct_field_instantiation
                     (identifier)
-                    (struct_value))
+                    (expr_literal
+                      (integer_literal)))
                   (struct_field_instantiation
                     (identifier)
-                    (struct_value)))))))))
+                    (expr_literal
+                      (string_literal))))))))))

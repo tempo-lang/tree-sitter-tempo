@@ -65,9 +65,8 @@ module.exports = grammar({
     // struct instantiation (struct literals)
     struct_instantiation: $ =>
       seq(
-        $.named_type,
-        '@',
-        $._role_type,
+        $.identifier,
+        optional(seq('@', $._role_type)),
         field('body', $.struct_body_instantiation),
       ),
     struct_body_instantiation: $ =>
@@ -161,7 +160,17 @@ module.exports = grammar({
         $.expr_await,
         $.expr_group,
         $.struct_instantiation,
-        // TODO: bin op, closure
+        $.expr_binop,
+        // TODO: closure
+      ),
+    expr_binop: $ =>
+      prec.left(
+        1,
+        seq(
+          field('left', $.expression),
+          field('operator', choice('+', '-', '*', '/', '%')),
+          field('right', $.expression),
+        ),
       ),
     identifier: $ => choice(/\_[a-zA-Z_0-9]+/, /[a-zA-Z][a-zA-Z_0-9]*/),
     _literal: $ =>
